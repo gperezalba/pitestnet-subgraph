@@ -9,6 +9,8 @@ import {
     Wallet
 } from "../generated/schema"
 
+import { Token as TokenContract } from "../generated/templates/Token/Token"
+
 import { getBalance } from "./helpers"
 import { pushWalletTransaction } from "./wallet"
 
@@ -42,7 +44,7 @@ function addToken(tokenAddress: Address): void {
 
     if (token == null) {
         token = new Token(tokenAddress.toString());
-        let contract = Token.bind(tokenAddress);
+        let contract = TokenContract.bind(tokenAddress);
     
         token.tokenSymbol = contract.symbol();
         token.tokenName = contract.name();
@@ -169,8 +171,8 @@ export function updateTokenBalance(tokenAddress: Address, walletAddress: string)
             if (tokenAddress == Address.fromI32(0)) {
                 tokenBalance.balance = getBalance(Address.fromString(walletAddress));
             } else {
-                let token = Token.bind(tokenAddress.toString());
-                tokenBalance.balance = token.balanceOf(walletAddress);
+                let token = TokenContract.bind(tokenAddress);
+                tokenBalance.balance = token.balanceOf(Address.fromString(walletAddress)).toBigDecimal();
             }
     
             tokenBalance.save();

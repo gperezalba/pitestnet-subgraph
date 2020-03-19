@@ -9,6 +9,8 @@ import {
     BankFee
 } from "../generated/schema"
 
+import { Token as TokenContract } from "../generated/templates/Token/Token"
+
 import { createTransaction } from "./token"
 
 export function handleTransfer(event: Transfer): void {
@@ -62,7 +64,7 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function pushWalletTransaction(tx: Transaction, walletAddress: string): void {
-    let token = Token.bind(tx.currency);
+    let token = TokenContract.bind(Address.fromString(tx.currency));
 
     if (token !== null) {
 
@@ -77,7 +79,7 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
 }
 
 export function pushWalletBankTransaction(tx: Transaction, walletAddress: string): void {
-    let token = Token.bind(tx.currency);
+    let token = TokenContract.bind(Address.fromString(tx.currency));
 
     if (token !== null) {
 
