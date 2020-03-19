@@ -6,7 +6,7 @@ dataSources:
     name: IdentityFactory
     network: mainnet
     source:
-      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      address: "0xFaA9e9AD1c7788666BF40967E9cf63D8e7b2142E"
       abi: IdentityFactory
     mapping:
       kind: ethereum/events
@@ -27,7 +27,7 @@ dataSources:
     name: NameService
     network: mainnet
     source:
-      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      address: "0x2E523Dd43E71c9fd83b20a13889E053390c6A72E"
       abi: NameService
     mapping:
       kind: ethereum/events
@@ -51,7 +51,7 @@ dataSources:
     name: Balance
     network: mainnet
     source:
-      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      address: "0xa062614032C38396464c593C4866de4e9A3014ed"
       abi: Balance
     mapping:
       kind: ethereum/events
@@ -70,7 +70,7 @@ dataSources:
     name: AddToken
     network: mainnet
     source:
-      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      address: "0xE26484d6922a5fAE50CFc4260841a55Ebf0803F1"
       abi: AddToken
     mapping:
       kind: ethereum/events
