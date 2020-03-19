@@ -5,7 +5,6 @@ import {
     Wallet,
     Token,
     Transaction,
-    TokenBalance,
     BankTransaction,
     BankFee
 } from "../generated/schema"
@@ -67,7 +66,8 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
 
     if (token !== null) {
 
-        let wallet = loadWallet(Address.fromString(walletAddress));
+        loadWallet(Address.fromString(walletAddress));
+        let wallet = Wallet.load(walletAddress);
     
         if (!wallet.transactions.includes(tx.toString())) {
             wallet.transactions.push(tx.toString());
@@ -82,7 +82,8 @@ export function pushWalletBankTransaction(tx: Transaction, walletAddress: string
 
     if (token !== null) {
 
-        let wallet = loadWallet(Address.fromString(walletAddress));
+        loadWallet(Address.fromString(walletAddress));
+        let wallet = Wallet.load(walletAddress);
     
         if (!wallet.bankTransactions.includes(tx.toString())) {
             wallet.bankTransactions.push(tx.toString());
@@ -92,7 +93,7 @@ export function pushWalletBankTransaction(tx: Transaction, walletAddress: string
     }
 }
 
-export function loadWallet(address: Address): Wallet {
+export function loadWallet(address: Address): void {
     let wallet = Wallet.load(address.toString());
     
     if (wallet == null) {
@@ -100,6 +101,4 @@ export function loadWallet(address: Address): Wallet {
     }
 
     wallet.save();
-
-    return wallet;
 }

@@ -2,7 +2,8 @@ import { Address } from "@graphprotocol/graph-ts"
 import { CreateName, ChangeWallet, ChangeOwner } from "../generated/NameService/NameService"
 
 import { 
-    Name
+    Name, 
+    Wallet
 } from "../generated/schema"
 
 import { loadWallet } from "./wallet"
@@ -33,7 +34,8 @@ function setWallet(id: string, wallet: string): void {
 }
 
 function setName(walletAddress: Address, name: string): void {
-    let wallet = loadWallet(walletAddress);
+    loadWallet(walletAddress);
+    let wallet = Wallet.load(walletAddress.toString());
 
     wallet.name = name;
     wallet.save();

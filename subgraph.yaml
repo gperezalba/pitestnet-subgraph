@@ -13,7 +13,6 @@ dataSources:
       apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
-        - IdentityFactory
         - Identity
         - Wallet
       abis:
@@ -100,6 +99,9 @@ templates:
       file: ./src/token.ts
       entities:
         - Token
+        - Transaction
+        - TokenBalance
+        - Wallet
       abis:
         - name: Token
           file: ./abis/Token.json
@@ -144,6 +146,10 @@ templates:
       file: ./src/wallet.ts
       entities:
         - Wallet
+        - Token
+        - Transaction
+        - BankTransaction
+        - BankFee
       abis:
         - name: Wallet
           file: ./abis/Wallet.json
