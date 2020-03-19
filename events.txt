@@ -1,0 +1,37 @@
+- IdentityFactory
+    event DeployIdentity(address indexed identity, 
+        address indexed owner, 
+        address recovery, 
+        address indexed wallet, 
+        string name, 
+        bytes32 dataHash
+    );
+
+- WalletFactory
+    event NewWallet(address indexed identity, address indexed wallet);
+
+- Registry
+    event NewIdentity(address indexed identity, bytes32 indexed _dataHash);
+
+- NameService
+    event CreateName(string name, address indexed wallet, address indexed owner);
+    event ChangeWallet(string name, address indexed wallet);
+    event ChangeOwner(string name, address indexed newOwner);
+
+- Identity 
+    event Forward(address indexed destination, uint value, bytes data);
+    event FactoryForward(uint indexed kind, address contractAddress);
+    event NewOwner(address sender, address old, address current);
+    event NewRecovery(address old, address current);
+    event NewName(address sender, string old, string current);
+    event NewWallet(address sender, address old, address current);
+
+- Wallet 
+    event Transfer(address indexed tokenAddress, uint indexed kind, address indexed to, uint value, bytes data);
+    event Receive(address indexed tokenAddress, address indexed _from, uint value);
+
+- Token (IRC223)
+    event Transfer(address indexed from, address indexed to, uint value, bytes indexed data);
+
+- Market
+    event NewChange(address sender, uint change);

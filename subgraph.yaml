@@ -1,23 +1,152 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Contract
+    name: IdentityFactory
     network: mainnet
     source:
       address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
-      abi: Contract
+      abi: IdentityFactory
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.3
       language: wasm/assemblyscript
       entities:
-        - DeployIdentity
+        - IdentityFactory
+        - Identity
+        - Wallet
       abis:
-        - name: Contract
-          file: ./abis/Contract.json
+        - name: IdentityFactory
+          file: ./abis/IdentityFactory.json
       eventHandlers:
         - event: DeployIdentity(indexed address,indexed address,address,indexed address,string,bytes32)
           handler: handleDeployIdentity
-      file: ./src/mapping.ts
+      file: ./src/identityFactory.ts
+  - kind: ethereum/contract
+    name: NameService
+    network: mainnet
+    source:
+      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      abi: NameService
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Name
+        - Wallet
+      abis:
+        - name: NameService
+          file: ./abis/NameService.json
+      eventHandlers:
+        - event: CreateName(string,indexed address,indexed address)
+          handler: handleCreateName
+        - event: ChangeWallet(string,indexed address)
+          handler: handleChangeWallet
+        - event: ChangeOwner(string,indexed address)
+          handler: handleChangeOwner
+      file: ./src/nameService.ts
+  - kind: ethereum/contract
+    name: Balance
+    network: mainnet
+    source:
+      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      abi: Balance
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Token
+      abis:
+        - name: Balance
+          file: ./abis/Balance.json
+      callHandlers:
+        - function: f()
+          handler: handleGetBalance
+      file: ./src/balance.ts
+  - kind: ethereum/contract
+    name: AddToken
+    network: mainnet
+    source:
+      address: "0xC14632B0B2BB1c96594b6905de5209848eA04333"
+      abi: AddToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - Token
+      abis:
+        - name: AddToken
+          file: ./abis/AddToken.json
+      eventHandlers:
+        - event: NewToken(address,string,string)
+          handler: handleNewToken
+        - event: NewHolders(address,address[])
+          handler: handleNewHolders
+      file: ./src/token.ts
+templates:
+  - name: Token
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Token
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/token.ts
+      entities:
+        - Token
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256,indexed bytes)
+          handler: handleTransfer
+  - name: Identity
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Identity
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/identity.ts
+      entities:
+        - Identity
+      abis:
+        - name: Identity
+          file: ./abis/Identity.json
+      eventHandlers:
+        - event: Forward(indexed address,uint256,bytes)
+          handler: handleForward
+        - event: FactoryForward(indexed uint256,address)
+          handler: handleFactoryForward
+        - event: NewOwner(address,address,address)
+          handler: handleNewOwner
+        - event: NewRecovery(address,address)
+          handler: handleNewRecovery
+        - event: NewWallet(address,address,address)
+          handler: handleNewWallet
+  - name: Wallet
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Wallet
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/wallet.ts
+      entities:
+        - Wallet
+      abis:
+        - name: Wallet
+          file: ./abis/Wallet.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed uint256,indexed address,uint256,uint256,bytes)
+          handler: handleTransfer

@@ -1,0 +1,72 @@
+[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_identityAddress",
+				"type": "address"
+			},
+			{
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "deployWallet",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_identityAddress",
+				"type": "address"
+			}
+		],
+		"name": "deployWallet",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_controllerAddress",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "identity",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "wallet",
+				"type": "address"
+			}
+		],
+		"name": "NewWallet",
+		"type": "event"
+	}
+]

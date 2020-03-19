@@ -1,6 +1,100 @@
-type ExampleEntity @entity {
-  id: ID!
-  count: BigInt!
-  identity: Bytes! # address
-  owner: Bytes! # address
+type Identity @entity {
+    id: ID! #PIBIdentity_address
+    dataHash: Bytes!
+    owner: Bytes!
+    recovery: Bytes!
+    state: Int!
+    wallet: Wallet!
+    lastModification: BigInt!
+    creationTime: BigInt!
+    savingPots: [SavingPot!]
+    loans: [Loan!]
 }
+
+type Token @entity {
+    id: ID! #token_address
+    tokenDecimals: Int!
+    tokenSymbol: String!
+    tokenName: String!
+    totalSupply: BigDecimal!
+    holders: [TokenBalance!]
+}
+
+type Wallet @entity {
+    id: ID! #wallet_address
+    name: Name
+    identity: Identity @derivedFrom(field: "wallet")
+    balances: [TokenBalance!] @derivedFrom(field: "wallet")
+    transactions: [Transaction!]
+    bankTransactions: [BankTransaction!]
+}
+
+type Name @entity {
+    id: ID! #name_string
+    name: String
+    wallet: Wallet!
+    owner: Bytes
+}
+
+type TokenBalance @entity {
+    id: ID! #token_address-wallet_address
+    token: Token!
+    wallet: Wallet!
+    balance: BigDecimal!
+}
+
+type BankTransaction @entity {
+    id: ID! #event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+    transaction: Transaction!
+    kind: Int
+    concept: String
+    bankFee: BankFee
+    info: String #Market's change when is an exchange tx for example
+}
+
+type Transaction @entity {
+    id: ID! #event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+    from: Bytes!
+    to: Bytes!
+    currency: Token!
+    amount: BigDecimal!
+    data: Bytes!
+    fee: BigDecimal!
+    timestamp: Int!
+    isBankTransaction: Boolean
+    bankTransaction: BankTransaction @derivedFrom(field: "transaction")
+}
+
+type BankFee @entity {
+    id: ID! #event.transaction.hash.toHex()
+    transaction: BankTransaction! @derivedFrom(field: "bankFee")
+    fee: BigDecimal
+    kind: Int 
+    info: String
+}
+
+type SavingPot @entity {
+    id: ID!
+}
+
+type Loan @entity {
+    id: ID!
+}
+
+type Market @entity {
+    id: ID!
+    currency1: Bytes!
+    currency2: Bytes!
+    currency1Balance: BigDecimal!
+    currency2Balance: BigDecimal!
+    change: BigDecimal!
+    currency1Counterparts: [Counterpart!]
+    currency2Counterparts: [Counterpart!]
+}
+
+type Counterpart @entity {
+    id: ID!
+    currency: Bytes!
+    amount: BigDecimal!
+}
+
