@@ -659,13 +659,13 @@ export class Transaction extends Entity {
     this.set("fee", Value.fromBigDecimal(value));
   }
 
-  get timestamp(): i32 {
+  get timestamp(): BigInt {
     let value = this.get("timestamp");
-    return value.toI32();
+    return value.toBigInt();
   }
 
-  set timestamp(value: i32) {
-    this.set("timestamp", Value.fromI32(value));
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
   }
 
   get isBankTransaction(): boolean {

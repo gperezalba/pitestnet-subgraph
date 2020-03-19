@@ -60,7 +60,7 @@ type Transaction @entity {
     amount: BigDecimal!
     data: Bytes!
     fee: BigDecimal!
-    timestamp: Int!
+    timestamp: BigInt!
     isBankTransaction: Boolean
     bankTransaction: BankTransaction @derivedFrom(field: "transaction")
 }

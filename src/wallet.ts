@@ -68,8 +68,8 @@ export function pushWalletTransaction(tx: Transaction, walletAddress: string): v
 
         let wallet = loadWallet(Address.fromString(walletAddress));
     
-        if (!wallet.transactions.includes(tx.toString())) {
-            wallet.transactions.push(tx.toString());
+        if (!wallet.transactions.includes(tx.id)) {
+            wallet.transactions.push(tx.id);
         }
     
         wallet.save();
