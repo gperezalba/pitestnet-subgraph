@@ -1,4 +1,4 @@
-import { Address, BigDecimal, Bytes } from "@graphprotocol/graph-ts"
+import { Address, BigDecimal, Bytes, BigInt } from "@graphprotocol/graph-ts"
 import { Transfer } from "../generated/templates/Token/Token"
 import { NewToken, NewHolders } from "../generated/AddToken/AddToken"
 
@@ -119,8 +119,8 @@ export function newTransaction(event: Transfer): void {
         handleTokenBurn(event.address.toString(), event.params.value.toBigDecimal());
     }
 
-    pushWalletTransaction(tx, event.params.to.toString());
-    pushWalletTransaction(tx, event.params.from.toString());
+    pushWalletTransaction(tx as Transaction, event.params.to.toString());
+    pushWalletTransaction(tx as Transaction, event.params.from.toString());
 }
 
 export function createTransaction(
@@ -130,7 +130,7 @@ export function createTransaction(
     currency: string,
     amount: BigDecimal,
     data: Bytes,
-    timestamp: any,
+    timestamp: BigInt,
     fee: BigDecimal,
     isBankTransaction: boolean
 ): 
@@ -149,7 +149,7 @@ export function createTransaction(
 
     tx.save();
 
-    return tx;
+    return tx as Transaction;
 }
 
 /***************************************************************/
@@ -178,7 +178,7 @@ export function updateTokenBalance(tokenAddress: Address, walletAddress: string)
     }
 }
 
-function loadTokenBalance(tokenAddress: Address, walletAddress: string): TokenBalance {
+function loadTokenBalance(tokenAddress: Address, walletAddress: string): void {
     let token = Token.load(tokenAddress.toString());
 
     if (token !== null) { //Si el token no existe no hago nada
@@ -187,19 +187,19 @@ function loadTokenBalance(tokenAddress: Address, walletAddress: string): TokenBa
         
         if (tokenBalance == null) { //Si no existe el tokenBalance lo creo
             tokenBalance = new TokenBalance(id);
-            tokenBalance.token = token.toString();
+            tokenBalance.token = token.id;
 
             let wallet = Wallet.load(walletAddress);
 
             if (wallet == null) { //Si no existe el wallet lo creo
                 wallet = new Wallet(walletAddress);
                 //Añado al wallet este tokenBalance ya que como lo acabo de crear no lo tendrá
-                wallet.balances.push(tokenBalance.toString());
+                wallet.balances.push(tokenBalance.id);
             }
 
             //si el wallet existía pero no tenia el tokenBalance, lo incluyo
             if (!wallet.balances.includes(id)) { 
-                wallet.balances.push(tokenBalance.toString());
+                wallet.balances.push(tokenBalance.id);
             }
 
             wallet.save();
@@ -207,8 +207,6 @@ function loadTokenBalance(tokenAddress: Address, walletAddress: string): TokenBa
 
             updateTokenBalance(tokenAddress, walletAddress);
         }
-
-        return tokenBalance;
     }
 }
 
