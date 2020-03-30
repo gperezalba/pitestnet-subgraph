@@ -46,7 +46,7 @@ type TokenBalance @entity {
 type BankTransaction @entity {
     id: ID! #event.transaction.hash.toHex() + "-" + event.logIndex.toString()
     transaction: Transaction!
-    kind: Int
+    kind: BigInt
     concept: String
     bankFee: BankFee
     info: String #Market's change when is an exchange tx for example
@@ -69,7 +69,7 @@ type BankFee @entity {
     id: ID! #event.transaction.hash.toHex()
     transaction: BankTransaction! @derivedFrom(field: "bankFee")
     fee: BigDecimal
-    kind: Int 
+    kind: BigInt 
     info: String
 }
 

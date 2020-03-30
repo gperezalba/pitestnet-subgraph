@@ -514,13 +514,21 @@ export class BankTransaction extends Entity {
     this.set("transaction", Value.fromString(value));
   }
 
-  get kind(): i32 {
+  get kind(): BigInt | null {
     let value = this.get("kind");
-    return value.toI32();
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set kind(value: i32) {
-    this.set("kind", Value.fromI32(value));
+  set kind(value: BigInt | null) {
+    if (value === null) {
+      this.unset("kind");
+    } else {
+      this.set("kind", Value.fromBigInt(value as BigInt));
+    }
   }
 
   get concept(): string | null {
@@ -751,13 +759,21 @@ export class BankFee extends Entity {
     }
   }
 
-  get kind(): i32 {
+  get kind(): BigInt | null {
     let value = this.get("kind");
-    return value.toI32();
+    if (value === null) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set kind(value: i32) {
-    this.set("kind", Value.fromI32(value));
+  set kind(value: BigInt | null) {
+    if (value === null) {
+      this.unset("kind");
+    } else {
+      this.set("kind", Value.fromBigInt(value as BigInt));
+    }
   }
 
   get info(): string | null {

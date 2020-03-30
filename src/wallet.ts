@@ -39,7 +39,7 @@ export function handleTransfer(event: Transfer): void {
         bankTransaction = new BankTransaction(bankTxId);
     }
 
-    bankTransaction.transaction = tx.toString();
+    bankTransaction.transaction = tx.id;
     bankTransaction.kind = event.params.kind;
     bankTransaction.concept = event.params.data.toString();
     
@@ -49,18 +49,18 @@ export function handleTransfer(event: Transfer): void {
         bankFee = new BankFee(bankTxId);
     }
 
-    bankFee.transaction = bankTransaction.toString();
+    bankFee.transaction = bankTransaction.id;
     bankFee.kind = event.params.kind;
     bankFee.fee = event.params.commission.toBigDecimal();
 
     bankFee.save();
 
-    bankTransaction.bankFee = bankFee.toString();
+    bankTransaction.bankFee = bankFee.id;
 
     bankTransaction.save();
 
-    pushWalletBankTransaction(tx, tx.to.toString());
-    pushWalletBankTransaction(tx, tx.from.toString());
+    pushWalletBankTransaction(tx as Transaction, tx.to.toString());
+    pushWalletBankTransaction(tx as Transaction, tx.from.toString());
 }
 
 export function pushWalletTransaction(tx: Transaction, walletAddress: string): void {
@@ -85,8 +85,8 @@ export function pushWalletBankTransaction(tx: Transaction, walletAddress: string
 
         let wallet = loadWallet(Address.fromString(walletAddress));
     
-        if (!wallet.bankTransactions.includes(tx.toString())) {
-            wallet.bankTransactions.push(tx.toString());
+        if (!wallet.bankTransactions.includes(tx.id)) {
+            wallet.bankTransactions.push(tx.id);
         }
     
         wallet.save();
