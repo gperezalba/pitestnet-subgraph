@@ -25,9 +25,11 @@ export function handleNewToken(event: NewToken): void {
 export function handleNewHolders(event: NewHolders): void {
     addToken(event.params.tokenAddress);
 
+    let holders = event.params.holders;
+
     for (let i = 0; i < event.params.holders.length; i++) {
-        addTokenHolder(event.params.tokenAddress.toString(), event.params.holders[i].toString());
-        updateTokenBalance(event.params.tokenAddress, event.params.holders[i].toString());
+        addTokenHolder(event.params.tokenAddress.toString(), holders[i].toString());
+        updateTokenBalance(event.params.tokenAddress, holders[i].toString());
     }
 }
 
