@@ -39,7 +39,8 @@ export function handleIdentityNewWallet(event: NewWallet): void {
     let identity = Identity.load(event.address.toString());
 
     if (identity !== null) {
-        identity.wallet = loadWallet(event.params.current).toString();
+        let wallet = loadWallet(event.params.current);
+        identity.wallet = wallet.id;
         identity.save();
         updateLastModification(event.address.toString(), event.block.timestamp);
     }
