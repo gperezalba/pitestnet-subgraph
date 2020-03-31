@@ -10,9 +10,6 @@ import {
 import { loadWallet } from "./wallet"
 
 export function handleDeployIdentity(event: DeployIdentity): void {
-    IdentityContract.create(event.params.identity);
-    WalletContract.create(event.params.wallet);
-
     let identityAddress = event.params.identity.toHexString();
     let identity = new Identity(identityAddress);
     loadWallet(event.params.wallet);
@@ -30,5 +27,8 @@ export function handleDeployIdentity(event: DeployIdentity): void {
     identity.creationTime = event.block.timestamp;
 
     identity.save();
-    wallet.save(); 
+    wallet.save();
+
+    IdentityContract.create(event.params.identity);
+    WalletContract.create(event.params.wallet);
 }
