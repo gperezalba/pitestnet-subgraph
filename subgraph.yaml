@@ -8,6 +8,7 @@ dataSources:
     source:
       address: "0xFaA9e9AD1c7788666BF40967E9cf63D8e7b2142E"
       abi: IdentityFactory
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
