@@ -29,6 +29,6 @@ export function handleDeployIdentity(event: DeployIdentity): void {
     identity.save();
     wallet.save();
 
-    IdentityContract.create(event.params.identity);
-    WalletContract.create(event.params.wallet);
+    ////IdentityContract.create(event.params.identity);
+    //WalletContract.create(event.params.wallet);
 }
